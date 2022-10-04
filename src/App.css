@@ -1,0 +1,50 @@
+body {
+  background: #e8cbc0;
+  background: -webkit-linear-gradient(to right, #e8cbc0, #636fa4);
+  background: linear-gradient(to right, #e8cbc0, #636fa4);
+  min-height: 100vh;
+}
+
+.social-link {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border-radius: 50%;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.social-link:hover,
+.social-link:focus {
+  background: #ddd;
+  text-decoration: none;
+  color: #555;
+}
+
+.frame {
+  width: 100%;
+  height: 100%;
+  transition: transform 200ms;
+}
+
+.frame:hover {
+  transform: scale(1.5);
+}
+
+.social-link:hover::before {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #6dd5fa;
+}
+
+.social-link:hover {
+  color: #2980b9;
+  box-shadow: 0 0 5px #6dd5fa;
+  text-shadow: 0 0 15px #6dd5fa;
+}
+li {
+  list-style-type: none;
+}
