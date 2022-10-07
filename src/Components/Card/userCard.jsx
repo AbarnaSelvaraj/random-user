@@ -7,7 +7,7 @@ export default function UserCard({ user }) {
   let regionNames = new Intl.DisplayNames(["en"], { type: "region" });
   //
   return (
-    <div className="   my-2 frame">
+    <div className="my-2 frame">
       <div className="bg-white rounded shadow-sm pt-3 pb-5 px-2">
         <img
           src={`${user.picture.large}`}
@@ -22,8 +22,8 @@ export default function UserCard({ user }) {
               {user.location.street && (
                 <div className="row">
                   <div className="col-ld-6 col-md-12">{`${user.location.street.number}, ${user.location.street.name}`}</div>
-                  <div className="cocol-ld-6 col-md-12l">{`${user.location.city}, ${user.location.state}`}</div>
-                  <div className="cocol-ld-6 col-md-12l">{`${user.location.country}, ${user.location.postcode}`}</div>
+                  <div className="col-ld-6 col-md-12l">{`${user.location.city}, ${user.location.state}`}</div>
+                  <div className="col-ld-6 col-md-12l">{`${user.location.country}, ${user.location.postcode}`}</div>
                 </div>
               )}
             </span>
@@ -40,9 +40,9 @@ export default function UserCard({ user }) {
                 )}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-male"></i>
-                  </span>
+                <span className="social-link">
+                  <i className="fa fa-male"></i>
+                </span>
               </OverlayTrigger>
             </li>
           ) : (
@@ -54,9 +54,9 @@ export default function UserCard({ user }) {
                 )}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-solid fa-female"></i>
-                  </span>
+                <span className="social-link">
+                  <i className="fa fa-solid fa-female"></i>
+                </span>
               </OverlayTrigger>
             </li>
           )}
@@ -71,9 +71,9 @@ export default function UserCard({ user }) {
                 )}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-solid fa-birthday-cake"></i>
-                  </span>
+              <span className="social-link">
+                <i className="fa fa-solid fa-birthday-cake"></i>
+              </span>
               </OverlayTrigger>
             </li>
           )}
@@ -84,9 +84,9 @@ export default function UserCard({ user }) {
                 overlay={(props) => <Tooltip {...props}>{user?.email}</Tooltip>}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-solid fa-envelope"></i>
-                  </span>
+                <span className="social-link">
+                  <i className="fa fa-solid fa-envelope"></i>
+                </span>
               </OverlayTrigger>
             </li>
           )}
@@ -97,9 +97,9 @@ export default function UserCard({ user }) {
                 overlay={(props) => <Tooltip {...props}>{user?.phone}</Tooltip>}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-solid fa-phone"></i>
-                  </span>
+                <span className="social-link">
+                  <i className="fa fa-solid fa-phone"></i>
+                </span>
               </OverlayTrigger>
             </li>
           )}
@@ -110,9 +110,9 @@ export default function UserCard({ user }) {
                 overlay={(props) => <Tooltip {...props}>{user?.cell}</Tooltip>}
                 placement="top"
               >
-                  <span className="social-link">
-                    <i className="fa fa-solid fa-mobile-phone"></i>
-                  </span>
+                <span className="social-link">
+                  <i className="fa fa-solid fa-mobile-phone"></i>
+                </span>
               </OverlayTrigger>
             </li>
           )}

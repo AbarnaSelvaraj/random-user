@@ -15,7 +15,9 @@ export default function App() {
   const [page, setPage] = useState(1);
   let [gender, setGender] = useState("");
   const [usernameStart, setUserNameStart] = useState("");
-  const [url, setUrl] = useState("");
+
+  let url =
+    "https://randomuser.me/api/?format=pretty&page=0&results=6&inc=name,location,email,login,dob,phone,picture,nat,gender";
 
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -28,23 +30,21 @@ export default function App() {
   }
   const makeUrl = (count = 6) => {
     if (gender !== "")
-      setUrl(
-        `https://randomuser.me/api/?format=pretty&page=${page}&results=${count}&inc=name,location,email,dob,phone,picture,login,nat,gender&gender=${gender}`
-      );
-    else {
-      setUrl(
-        `https://randomuser.me/api/?format=pretty&page=${page}&results=${count}&inc=name,location,email,dob,phone,picture,login,nat,gender`
-      );
-    }
+      url = `https://randomuser.me/api/?format=pretty&page=${page}&results=${count}&inc=name,location,email,login,dob,phone,picture,nat,gender&gender=${gender}`;
+    else
+      url = `https://randomuser.me/api/?format=pretty&page=${page}&results=${count}&inc=name,location,email,login,dob,phone,picture,login,nat,gender`;
     return url;
   };
 
   const updateGender = (g) => {
     setGender(g);
+    url =
+      `https://randomuser.me/api/?format=pretty&page=${page}&results=6&inc=name,location,email,login,dob,phone,picture,nat,gender` +
+      (g !== "" ? `&gender=${g}` : "");
     setPage(1);
     makeUrl();
     sessionStorage.clear();
-    getUsers();
+    // getUsers();
   };
 
   function range(start, stop, array) {
@@ -61,7 +61,7 @@ export default function App() {
       getUsers();
     }
     try {
-      const response = await axios.get(makeUrl(500));
+      const response = await axios.get(makeUrl(5000));
       let tempData = response.data.results.filter((item) =>
         `${item.name.first} ${item.name.last}`
           .toLowerCase()
@@ -71,7 +71,8 @@ export default function App() {
       for (let i = 0; i <= len; i += 6) {
         let key = `${i / 6}`;
         let tempPageData = range(key, key + 6 < len ? key + 6 : len, tempData);
-        sessionStorage.setItem(key, JSON.stringify(tempPageData));
+        sessionStorage.setItem(`${page}`, JSON.stringify(tempPageData));
+        setPage(page + 1);
       }
       setData(JSON.parse(sessionStorage.getItem(page)));
       setPage(1);
@@ -105,10 +106,10 @@ export default function App() {
   };
 
   useEffect(() => {
-    // sessionStorage.clear();
-    makeUrl();
+    sessionStorage.clear();
     getUsers();
   }, []);
+
   return (
     <>
       <NavBar
@@ -119,53 +120,57 @@ export default function App() {
         setUserNameStart={setUserNameStart}
       />
 
-      <div className="container">
-        {loading && (
-          <span className="float align-middle">
-            <div
-              className="position-absolute top-50 start-50 translate-middle spinner-border"
-              role="status"
-            >
-              <span className="sr-only">Loading...</span>
-            </div>
-          </span>
-        )}
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="item">
-            {(provided) => (
-              <ul
-                className="item row text-center"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
+      {data ? (
+        <div className="container">
+          {loading && (
+            <span className="float align-middle">
+              <div
+                className="position-absolute top-50 start-50 translate-middle spinner-border"
+                role="status"
               >
-                {data.map((item, index) => (
-                  <Draggable
-                    key={item.login.uuid}
-                    draggableId={item.login.uuid}
-                    index={index}
-                  >
-                    {(provided) => (
-                      <li
-                        id={String(item.login.uuid)}
-                        className="col-md-4 col-lg-4 col-sm-6"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <UserCard user={item} />
-                      </li>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
-        <nav aria-label="Page navigation example">
-          <Pagination page={page} setPage={setPage} getUsers={getUsers} />
-        </nav>
-      </div>
+                <span className="sr-only">Loading...</span>
+              </div>
+            </span>
+          )}
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="item">
+              {(provided) => (
+                <ul
+                  className="item row text-center"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {data.map((item, index) => (
+                    <Draggable
+                      key={item.login.uuid}
+                      draggableId={item.login.uuid}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <li
+                          id={String(item.login.uuid)}
+                          className="col-md-4 col-lg-4 col-sm-6"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <UserCard user={item} />
+                        </li>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+          <nav aria-label="Page navigation example">
+            <Pagination page={page} setPage={setPage} getUsers={getUsers} />
+          </nav>
+        </div>
+      ) : (
+        <> </>
+      )}
     </>
   );
 }
