@@ -44,11 +44,10 @@ export default function App() {
     setPage(1);
     makeUrl();
     sessionStorage.clear();
-    // getUsers();
   };
 
   function range(start, stop, array) {
-    var a = [array[start++]];
+    let a = [array[start++]];
     while (start < stop) {
       a.push(array[start++]);
     }
